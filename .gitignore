@@ -3,6 +3,8 @@ __pycache__/
 _build
 _static
 _templates
+logs/
+images/
 
 # virtual environment files
 bin/

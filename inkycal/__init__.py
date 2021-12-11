@@ -1,6 +1,3 @@
-# Display class (for dirving E-Paper displays)
-from inkycal.display import Display
-
 # Default modules
 import inkycal.modules.inkycal_agenda
 import inkycal.modules.inkycal_calendar

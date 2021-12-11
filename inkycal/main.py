@@ -14,7 +14,6 @@ import json
 import logging
 from logging.handlers import RotatingFileHandler
 
-from inkycal.display import Display
 from inkycal.custom import *
 from inkycal.modules.inky_image import Inkyimage as Images
 
@@ -130,7 +129,13 @@ class Inkycal:
     if self.render == True:
 
       # Init Display class with model in settings file
-      from inkycal.display import Display
+      if settings["modelline"] == 'waveshare':
+        from inkycal.display.display_waveshare import Display
+      elif settings["modelline"] == 'inky':
+        from inkycal.display.display_inky import Display
+      else:
+        print('modelline not found')
+        return
       self.Display = Display(settings["model"])
 
       # check if colours can be rendered
@@ -210,7 +215,7 @@ class Inkycal:
     """
 
     print(f'Inkycal version: v{self._release}')
-    print(f'Selected E-paper display: {self.settings["model"]}')
+    print(f'Selected E-paper display: {self.settings["model"]} from line {self.settings["modelline"]}')
 
     # store module numbers in here
     errors = []
@@ -359,6 +364,8 @@ class Inkycal:
 
   def _assemble(self):
     """Assembles all sub-images to a single image"""
+
+    Display = self.Display
 
     # Create 2 blank images with the same resolution as the display
     width, height = Display.get_display_size(self.settings["model"])
